@@ -1,0 +1,6 @@
+{
+	"text.autoconfig.expandedenderchest.title": "Expanded Enderchest",
+	"text.autoconfig.expandedenderchest.option.enabled": "Enabled",
+	"text.autoconfig.expandedenderchest.option.enabled.@Tooltip[0]": "§aEnables§r or§c disables§r the mod",
+	"text.autoconfig.expandedenderchest.option.enabled.@Tooltip[1]": "§7§o* Requires restart"
+}
