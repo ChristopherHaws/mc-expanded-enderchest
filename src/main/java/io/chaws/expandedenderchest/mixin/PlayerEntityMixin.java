@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EnderChestInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.encryption.PlayerPublicKey;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -27,6 +28,7 @@ public abstract class PlayerEntityMixin {
 		final BlockPos pos,
 		final float yaw,
 		final GameProfile gameProfile,
+		final PlayerPublicKey publicKey,
 		final CallbackInfo ci
 	) {
 		var accessor = (SimpleInventoryAccessor)getEnderChestInventory();

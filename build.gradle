@@ -31,11 +31,11 @@ loom {
 
 	runs {
 		client {
-			runDir = "run/1.19.3/client"
+			runDir = "run/1.19/client"
             vmArg "-XX:+ShowCodeDetailsInExceptionMessages"
 		}
 		server {
-			runDir = "run/1.19.3/server"
+			runDir = "run/1.19/server"
             vmArg "-XX:+ShowCodeDetailsInExceptionMessages"
 		}
 	}
@@ -77,9 +77,9 @@ dependencies {
 
 	// QoL mods for local development
 	modLocalRuntime("maven.modrinth:lazydfu:0.1.3")
-	modLocalRuntime("maven.modrinth:lithium:mc1.19.3-0.10.4")
-	modLocalRuntime("maven.modrinth:sodium:mc1.19.3-0.4.6")
+	modLocalRuntime("maven.modrinth:lithium:mc1.19.2-0.10.4")
 	modLocalRuntime("maven.modrinth:starlight:1.1.1+1.19")
+    //modLocalRuntime("maven.modrinth:sodium:mc1.19.2-0.4.4")
 }
 
 processResources {
