@@ -78,7 +78,7 @@ dependencies {
 	// QoL mods for local development
 	modLocalRuntime("maven.modrinth:lazydfu:0.1.3")
 	modLocalRuntime("maven.modrinth:lithium:mc1.19.3-0.10.4")
-	modLocalRuntime("maven.modrinth:sodium:mc1.19.3-0.4.7")
+	modLocalRuntime("maven.modrinth:sodium:mc1.19.3-0.4.8")
 	modLocalRuntime("maven.modrinth:starlight:1.1.1+1.19")
 }
 
