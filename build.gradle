@@ -1,6 +1,6 @@
 plugins {
 	// https://fabricmc.net/wiki/documentation:fabric_loom
-	id 'fabric-loom' version '1.0.17'
+	id 'fabric-loom' version '1.1.9'
     // Quiltflower is a better decompiler
     id "io.github.juuxel.loom-quiltflower" version "1.8.0"
 	id 'maven-publish'
