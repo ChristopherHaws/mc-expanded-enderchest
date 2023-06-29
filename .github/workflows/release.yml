@@ -79,7 +79,7 @@ jobs:
           loaders: |
             fabric
           game-versions: |
-            1.19.3
+            1.20.1
           dependencies: |
             fabric-api | depends | *
             cloth-config | depends | *
