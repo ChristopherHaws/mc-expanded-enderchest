@@ -26,3 +26,7 @@ indent_size = 2
 [.editorconfig]
 indent_style = space
 indent_size = 4
+
+[*.{yaml,yml}]
+indent_style = space
+indent_size = 2

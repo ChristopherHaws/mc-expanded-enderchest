@@ -27,8 +27,15 @@
 		]
 	},
 	"mixins": [
-		"expandedenderchest.mixins.json"
+		"expandedenderchest.mixins.json",
+		{
+			"config": "expandedenderchest.client.mixins.json",
+			"environment": "client"
+		}
 	],
+	"includes": {
+		"cloth-config": "*"
+	},
 	"depends": {
 		"fabricloader": ">=0.14",
 		"fabric": "*",
