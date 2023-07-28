@@ -1,8 +1,11 @@
 name: release
 on:
+  # pull_request:
+  #   branches:
+  #     - main
   push:
     tags:
-      - 'v*' # Run if someone pushes a semantic versioned tag to the GitHub repo
+      - "v*" # Run if someone pushes a semantic versioned tag to the GitHub repo
 
 env:
   APPEND_BUILD_NUMBER: false
@@ -12,6 +15,12 @@ jobs:
     name: release
     runs-on: ubuntu-latest
     steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+        with:
+          # Fetch all history for all tags and branches
+          fetch-depth: 0
+
       - name: read version from tag
         id: version_read
         run: echo "tag_version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
@@ -23,18 +32,8 @@ jobs:
         with:
           # Fail the task if it can't parse the version
           lenient: false
-          version: ${{ env.tag_version }}
-
-      #TODO: Instead of parsing the git tag, we should just read the property from gradle.properties
-      - name: log parsed semver
-        id: version_log
-        shell: bash
-        run: |
-          echo "release = ${{ steps.version.outputs.release }}"   # Mod Version
-          echo "build = ${{ steps.version.outputs.build }}"       # Minecraft Version
-
-      - name: checkout repository
-        uses: actions/checkout@v3
+          # The ref_name will be the version tag
+          version: ${{ github.ref_name }}
 
       - name: validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
@@ -52,6 +51,8 @@ jobs:
 
       - name: build
         run: ./gradlew build
+        env:
+          MOD_VERSION: ${{ steps.version.outputs.release }}
 
       - name: capture build artifacts
         uses: actions/upload-artifact@v3
@@ -59,35 +60,26 @@ jobs:
           name: artifacts
           path: build/libs/
 
-      - name: get changelog entry
-        id: changelog_reader
-        uses: mindsers/changelog-reader-action@v2
-        with:
-          validation_level: error
-          version: ${{ steps.version.outputs.release }}
-          path: ./CHANGELOG.md
-
       - uses: Kir-Antipov/mc-publish@v3.2
-        if: ${{ github.event.inputs.test-run != 'y' }}
         with:
           name: v${{ steps.version.outputs.release }} for ${{ steps.version.outputs.build }}
           version: ${{ steps.version.outputs.release }}+${{ steps.version.outputs.build }}
           version-type: release
-          changelog-file: CHANGELOG.md
-          changelog: ${{ steps.changelog_reader.outputs.changes }}
 
           loaders: |
             fabric
           game-versions: |
             1.20.1
-          dependencies: |
-            fabric-api | depends | *
-            cloth-config | depends | *
-            modmenu | suggests | *
           java: |
             17
 
+          github-generate-changelog: true
+          github-draft: false
+          github-prerelease: false
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
           files-primary: build/libs/!(*-@(dev|sources|javadoc)).jar
+          files-secondary: build/libs/*-@(dev|sources|javadoc).jar
 
           #modrinth-id: Read from fabric.mod.json custom.modmanager.modrinth
           modrinth-featured: true
@@ -96,13 +88,6 @@ jobs:
 
           #curseforge-id: Read from fabric.mod.json custom.modmanager.curseforge
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-
-          github-generate-changelog: false
-          github-draft: false
-          github-prerelease: false
-          github-discussion: Announcements
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          github-files-secondary: build/libs/*-@(dev|sources|javadoc).jar
 
           retry-attempts: 2
           retry-delay: 10000

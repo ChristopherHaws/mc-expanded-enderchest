@@ -6,11 +6,5 @@
 	"injectors": {
 		"defaultRequire": 1
 	},
-	"client": [
-		"AnvilScreenAccessor",
-		"AnvilScreenMixin",
-		"ChatHudMixin",
-		"SignEditScreenMixin",
-		"TextFieldWidgetMixin"
-	]
+	"client": []
 }
