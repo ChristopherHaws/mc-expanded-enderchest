@@ -2,7 +2,10 @@ package io.chaws.expandedenderchest.mixin;
 
 import java.util.OptionalInt;
 
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
@@ -14,7 +17,11 @@ import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.text.Text;
 
 @Mixin(EnderChestBlock.class)
-public class EnderChestBlockMinix {
+public abstract class EnderChestBlockMixin {
+	@Final
+	@Shadow
+	private static Text CONTAINER_NAME;
+
 	@Redirect(
 		method = "onUse",
 		at = @At(
@@ -27,6 +34,7 @@ public class EnderChestBlockMinix {
 		return openHandledScreen(playerEntity);
 	}
 
+	@Unique
 	private OptionalInt openHandledScreen(PlayerEntity playerEntity) {
 		return playerEntity.openHandledScreen(new SimpleNamedScreenHandlerFactory(
 			(syncId, playerInventory, playerEntityInner) ->
@@ -35,7 +43,7 @@ public class EnderChestBlockMinix {
 					playerInventory,
 					playerEntityInner.getEnderChestInventory()
 				),
-			Text.translatable("container.enderchest")
+			CONTAINER_NAME
 		));
 	}
 }
