@@ -101,7 +101,7 @@ static def devMods(DependencyHandler deps) {
 	deps.modLocalRuntime("maven.modrinth:lazydfu:0.1.3")
 	// There is no 1.20.3 compatible version yet deps.modLocalRuntime("maven.modrinth:lithium:mc1.20.2-0.12.0")
 	deps.modLocalRuntime("maven.modrinth:sodium:mc1.20.3-0.5.5")
-	deps.modLocalRuntime("maven.modrinth:starlight:1.1.3+1.20.3")
+	deps.modLocalRuntime("maven.modrinth:starlight:1.1.3+1.20.4")
 	deps.modLocalRuntime("maven.modrinth:auth-me:8.0.0+1.20.4")
 }
 
