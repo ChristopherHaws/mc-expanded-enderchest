@@ -33,6 +33,6 @@ public abstract class PlayerEntityMixin {
 	) {
 		var accessor = (SimpleInventoryAccessor)getEnderChestInventory();
 		accessor.setSize(EXPANDED_ENDERCHEST_SIZE);
-		accessor.setStacks(DefaultedList.ofSize(EXPANDED_ENDERCHEST_SIZE, ItemStack.EMPTY));
+		accessor.setHeldStacks(DefaultedList.ofSize(EXPANDED_ENDERCHEST_SIZE, ItemStack.EMPTY));
 	}
 }
