@@ -14,7 +14,7 @@ import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.text.Text;
 
 @Mixin(EnderChestBlock.class)
-public class EnderChestBlockMinix {
+public class EnderChestBlockMixin {
 	@Redirect(
 		method = "onUse",
 		at = @At(
