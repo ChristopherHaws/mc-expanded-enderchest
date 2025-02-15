@@ -38,10 +38,10 @@ jobs:
       - name: validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
 
-      - name: setup jdk 17
+      - name: setup jdk 21
         uses: actions/setup-java@v3
         with:
-          java-version: 17
+          java-version: 21
           distribution: temurin
           cache: gradle
 
@@ -55,23 +55,16 @@ jobs:
           MOD_VERSION: ${{ steps.version.outputs.release }}
 
       - name: capture build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: artifacts
           path: build/libs/
 
-      - uses: Kir-Antipov/mc-publish@v3.2
+      - uses: Kir-Antipov/mc-publish@v3.3
         with:
           name: v${{ steps.version.outputs.release }} for ${{ steps.version.outputs.build }}
           version: ${{ steps.version.outputs.release }}+${{ steps.version.outputs.build }}
           version-type: release
-
-          loaders: |
-            fabric
-          game-versions: |
-            1.20.1
-          java: |
-            17
 
           github-generate-changelog: true
           github-draft: false
