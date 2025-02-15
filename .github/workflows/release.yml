@@ -55,7 +55,7 @@ jobs:
           MOD_VERSION: ${{ steps.version.outputs.release }}
 
       - name: capture build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: artifacts
           path: build/libs/
