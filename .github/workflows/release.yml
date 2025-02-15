@@ -60,18 +60,11 @@ jobs:
           name: artifacts
           path: build/libs/
 
-      - uses: Kir-Antipov/mc-publish@v3.2
+      - uses: Kir-Antipov/mc-publish@v3.3
         with:
           name: v${{ steps.version.outputs.release }} for ${{ steps.version.outputs.build }}
           version: ${{ steps.version.outputs.release }}+${{ steps.version.outputs.build }}
           version-type: release
-
-          loaders: |
-            fabric
-          game-versions: |
-            1.20.1
-          java: |
-            21
 
           github-generate-changelog: true
           github-draft: false
