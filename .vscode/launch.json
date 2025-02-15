@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Minecraft Client",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/run/1.21.4/client",
+      "console": "integratedTerminal",
+      "stopOnEntry": false,
+      "mainClass": "net.fabricmc.devlaunchinjector.Main",
+      "vmArgs": "-Dfabric.dli.config\u003dD:\\games\\minecraft-java\\mc-expanded-enderchest\\.gradle\\loom-cache\\launch.cfg -Dfabric.dli.env\u003dclient -XX:+ShowCodeDetailsInExceptionMessages -Dmixin.debug.export\u003dtrue -Dmixin.debug.export.decompile\u003dtrue -Dmixin.dumpTargetOnFailure\u003dtrue -Dmixin.debug.verify\u003dtrue -Dmixin.debug.verbose\u003dtrue -Dmixin.env.remapRefMap\u003dtrue -Dmixin.checks\u003dtrue -Dmixin.hotSwap\u003dtrue -Dfabric.dli.main\u003dnet.fabricmc.loader.impl.launch.knot.KnotClient",
+      "args": "",
+      "env": {},
+      "projectName": "mc-expanded-enderchest",
+      "runDir": "D:\\games\\minecraft-java\\mc-expanded-enderchest\\run\\1.21.4\\client"
+    },
+    {
+      "type": "java",
+      "name": "Minecraft Server",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/run/1.21.4/server",
+      "console": "integratedTerminal",
+      "stopOnEntry": false,
+      "mainClass": "net.fabricmc.devlaunchinjector.Main",
+      "vmArgs": "-Dfabric.dli.config\u003dD:\\games\\minecraft-java\\mc-expanded-enderchest\\.gradle\\loom-cache\\launch.cfg -Dfabric.dli.env\u003dserver -XX:+ShowCodeDetailsInExceptionMessages -Dmixin.debug.export\u003dtrue -Dmixin.debug.export.decompile\u003dtrue -Dmixin.dumpTargetOnFailure\u003dtrue -Dmixin.debug.verify\u003dtrue -Dmixin.debug.verbose\u003dtrue -Dmixin.env.remapRefMap\u003dtrue -Dmixin.checks\u003dtrue -Dmixin.hotSwap\u003dtrue -Dfabric.dli.main\u003dnet.fabricmc.loader.impl.launch.knot.KnotServer",
+      "args": "nogui",
+      "env": {},
+      "projectName": "mc-expanded-enderchest",
+      "runDir": "D:\\games\\minecraft-java\\mc-expanded-enderchest\\run\\1.21.4\\server"
+    }
+  ]
+}

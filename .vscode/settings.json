@@ -1,0 +1,35 @@
+{
+	"[ignore]": {
+		"editor.defaultFormatter": "foxundermoon.shell-format"
+	},
+	"[java]": {
+		"editor.defaultFormatter": "hyperproof.vscode-ext-prettier-java"
+	},
+	"[markdown]": {
+		"cSpell.advanced.feature.useReferenceProviderRemove": "/^#+\\s/",
+		"cSpell.advanced.feature.useReferenceProviderWithRename": true,
+		"cSpell.fixSpellingWithRenameProvider": true,
+		"diffEditor.ignoreTrimWhitespace": false,
+		"editor.defaultFormatter": "yzhang.markdown-all-in-one",
+		"editor.quickSuggestions": {
+			"comments": "off",
+			"other": "off",
+			"strings": "off"
+		},
+		"editor.unicodeHighlight.ambiguousCharacters": false,
+		"editor.unicodeHighlight.invisibleCharacters": false,
+		"editor.wordWrap": "on"
+	},
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"files.associations": {
+		".github/workflows/*.yml": "github-actions-workflow"
+	},
+	"java.configuration.updateBuildConfiguration": "automatic",
+	// Disable the java formatter because we are using prettier
+	"java.format.enabled": false,
+	"java.maxConcurrentBuilds": 4,
+	"java.project.sourcePaths": ["src"],
+	"java.configuration.detectJdksAtStart": true,
+	"java.gradle.buildServer.enabled": "on",
+	"java.references.includeDecompiledSources": true,
+}

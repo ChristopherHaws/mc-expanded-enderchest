@@ -14,10 +14,10 @@ public interface SimpleInventoryAccessor {
 	@Mutable
 	void setSize(int size);
 
-	@Accessor("stacks")
+	@Accessor("heldStacks")
 	@Mutable
 	void setStacks(DefaultedList<ItemStack> stacks);
 
-	@Accessor("stacks")
+	@Accessor("heldStacks")
 	DefaultedList<ItemStack> getStacks();
 }
