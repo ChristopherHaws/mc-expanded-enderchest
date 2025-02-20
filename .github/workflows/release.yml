@@ -9,17 +9,57 @@ on:
 
 env:
   APPEND_BUILD_NUMBER: false
+  #PUBLISH: ${{ !contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.pull_request.title, '[ci skip]') }}
 
 jobs:
-  build:
+  release:
     name: release
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        minecraft_version: [1.21.4]
+    env:
+      project_name: fabric-${{ matrix.minecraft_version }}
+      artifact_dir: modules/fabric-${{ matrix.minecraft_version }}/build/libs
     steps:
       - name: checkout repository
         uses: actions/checkout@v2
         with:
           # Fetch all history for all tags and branches
           fetch-depth: 0
+
+      # https://github.com/marketplace/actions/git-semantic-version
+      # https://gitversion.net/docs/learn/how-it-works
+      # - name: generate version
+      #   uses: paulhatch/semantic-version@v5.0.2
+      #   with:
+      #     # The prefix to use to identify tags
+      #     tag_prefix: "v"
+      #     # A string which, if present in a git commit, indicates that a change represents a
+      #     # major (breaking) change, supports regular expressions wrapped with '/'
+      #     major_pattern: "(MAJOR)"
+      #     # A string which indicates the flags used by the `major_pattern` regular expression. Supported flags: idgs
+      #     major_regexp_flags: ""
+      #     # Same as above except indicating a minor change, supports regular expressions wrapped with '/'
+      #     minor_pattern: "(MINOR)"
+      #     # A string which indicates the flags used by the `minor_pattern` regular expression. Supported flags: idgs
+      #     minor_regexp_flags: ""
+      #     # A string to determine the format of the version output
+      #     version_format: "${major}.${minor}.${patch}+${MINECRAFT_VERSION}"
+      #     # Optional path to check for changes. If any changes are detected in the path the
+      #     # 'changed' output will true. Enter multiple paths separated by spaces.
+      #     change_path: "src/client src/main"
+      #     # Named version, will be used as suffix for name version tag
+      #     namespace: ${MINECRAFT_VERSION}
+      #     # If this is set to true, *every* commit will be treated as a new version.
+      #     bump_each_commit: false
+      #     # If true, the body of commits will also be searched for major/minor patterns to determine the version type.
+      #     search_commit_body: false
+      #     # The output method used to generate list of users, 'csv' or 'json'.
+      #     user_format_type: "csv"
+      #     # Prevents pre-v1.0.0 version from automatically incrementing the major version.
+      #     # If enabled, when the major version is 0, major releases will be treated as minor and minor as patch. Note that the version_type output is unchanged.
+      #     enable_prerelease_mode: false
 
       - name: read version from tag
         id: version_read
@@ -38,6 +78,13 @@ jobs:
       - name: validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
 
+      - name: setup jdk 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+          cache: gradle
+
       - name: setup jdk 21
         uses: actions/setup-java@v3
         with:
@@ -50,29 +97,38 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: build
-        run: ./gradlew build
+        run: ./gradlew :${{ env.project_name }}:build --no-daemon
         env:
           MOD_VERSION: ${{ steps.version.outputs.release }}
 
       - name: capture build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: artifacts
-          path: build/libs/
+          name: artifacts-${{ matrix.minecraft_version }}
+          path: ${{ env.artifact_dir }}
 
       - uses: Kir-Antipov/mc-publish@v3.3
         with:
-          name: v${{ steps.version.outputs.release }} for ${{ steps.version.outputs.build }}
-          version: ${{ steps.version.outputs.release }}+${{ steps.version.outputs.build }}
+          name: v${{ steps.version.outputs.release }} for ${{ matrix.minecraft_version }}
+          version: ${{ steps.version.outputs.release }}+${{ matrix.minecraft_version }}
           version-type: release
+
+          # This metadata is read from the mod's fabric.mod.json file
+          # https://github.com/Kir-Antipov/mc-publish/blob/v3.3/src/loaders/fabric/fabric-metadata-reader.ts
+          # loaders:
+          # game-versions:
+          # java:
 
           github-generate-changelog: true
           github-draft: false
           github-prerelease: false
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-          files-primary: build/libs/!(*-@(dev|sources|javadoc)).jar
-          files-secondary: build/libs/*-@(dev|sources|javadoc).jar
+          files: |
+            ${{ env.artifact_dir }}/!(*-@(dev|sources|javadoc)).jar
+            ${{ env.artifact_dir }}/*-@(dev|sources|javadoc).jar
+          # files-primary: build/libs/!(*-@(dev|sources|javadoc)).jar
+          # files-secondary: build/libs/*-@(dev|sources|javadoc).jar
 
           #modrinth-id: Read from fabric.mod.json custom.modmanager.modrinth
           modrinth-featured: true
