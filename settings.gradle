@@ -10,12 +10,18 @@ pluginManagement {
 }
 
 plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
 }
 
 // https://docs.gradle.org/current/userguide/multi_project_builds.html#modifying_a_subproject_path
-include "fabric-1.21.4"
-project(':fabric-1.21.4').projectDir = file("modules/fabric-1.21.4")
+include "fabric-1.20.1"
+project(':fabric-1.20.1').projectDir = file("modules/fabric-1.20.1")
+
+include "fabric-1.20.3"
+project(':fabric-1.20.3').projectDir = file("modules/fabric-1.20.3")
+
+include "fabric-1.21.0"
+project(':fabric-1.21.0').projectDir = file("modules/fabric-1.21.0")
 
 // This should match the folder name of the project, or else IDEA may complain (see https://youtrack.jetbrains.com/issue/IDEA-317606)
 // https://docs.gradle.org/current/userguide/multi_project_builds.html#sec:naming_recommendations
