@@ -5,7 +5,7 @@
       "type": "java",
       "name": "Minecraft Client",
       "request": "launch",
-      "cwd": "${workspaceFolder}/run/1.21.4/client",
+      "cwd": "${workspaceFolder}/run/1.21.0/client",
       "console": "integratedTerminal",
       "stopOnEntry": false,
       "mainClass": "net.fabricmc.devlaunchinjector.Main",
@@ -13,13 +13,13 @@
       "args": "",
       "env": {},
       "projectName": "mc-expanded-enderchest",
-      "runDir": "D:\\games\\minecraft-java\\mc-expanded-enderchest\\run\\1.21.4\\client"
+      "runDir": "D:\\games\\minecraft-java\\mc-expanded-enderchest\\run\\1.21.0\\client"
     },
     {
       "type": "java",
       "name": "Minecraft Server",
       "request": "launch",
-      "cwd": "${workspaceFolder}/run/1.21.4/server",
+      "cwd": "${workspaceFolder}/run/1.21.0/server",
       "console": "integratedTerminal",
       "stopOnEntry": false,
       "mainClass": "net.fabricmc.devlaunchinjector.Main",
@@ -27,7 +27,7 @@
       "args": "nogui",
       "env": {},
       "projectName": "mc-expanded-enderchest",
-      "runDir": "D:\\games\\minecraft-java\\mc-expanded-enderchest\\run\\1.21.4\\server"
+      "runDir": "D:\\games\\minecraft-java\\mc-expanded-enderchest\\run\\1.21.0\\server"
     }
   ]
 }

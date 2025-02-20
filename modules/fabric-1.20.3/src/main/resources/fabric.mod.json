@@ -1,0 +1,59 @@
+{
+	"schemaVersion": 1,
+	"id": "expandedenderchest",
+	"version": "${version}",
+	"name": "Expanded Enderchest",
+	"description": "Expands the enderchest to be the size of a double chest (54 slots)",
+	"authors": [
+		"chaws"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/expanded-enderchest",
+		"sources": "https://github.com/ChristopherHaws/mc-expanded-enderchest",
+		"issues": "https://github.com/ChristopherHaws/mc-expanded-enderchest/issues"
+	},
+	"license": "LGPL-3",
+	"icon": "assets/expandedenderchest/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"io.chaws.expandedenderchest.ExpandedEnderchest"
+		],
+		"client": [
+			"io.chaws.expandedenderchest.client.ExpandedEnderchestClient"
+		],
+		"modmenu": [
+			"io.chaws.expandedenderchest.client.config.ModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"expandedenderchest.mixins.json",
+		{
+			"config": "expandedenderchest.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"includes": {
+		"cloth-config": "*"
+	},
+	"depends": {
+		"fabricloader": ">=0.16",
+		"fabric": "*",
+		"minecraft": ">=1.20.3 <1.21",
+		"java": ">=17"
+	},
+	"suggests": {
+		"modmenu": ">=9"
+	},
+	"custom": {
+		"modmanager": {
+			"modrinth": "Gx7FGKAH",
+			"curseforge": 782799
+		},
+		"modmenu": {
+			"links": {
+				"modmenu.discord": "https://discord.gg/kQjty3rfJd"
+			}
+		}
+	}
+}
