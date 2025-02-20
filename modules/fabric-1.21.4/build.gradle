@@ -1,0 +1,121 @@
+plugins {
+	id 'fabric-loom'
+	id 'maven-publish'
+	id 'idea'
+}
+
+String buildNumber = System.getenv("GITHUB_RUN_NUMBER")
+Boolean appendBuildNumber = System.getenv("APPEND_BUILD_NUMBER") == "true" && buildNumber != null
+String modVersion = System.getenv("MOD_VERSION") ?: "0.0.1"
+
+version = modVersion +
+        (appendBuildNumber ? "-build${buildNumber}" : "") +
+        "+${project.minecraft_version}"
+
+base {
+	archivesName = "${project.mod_slug}-fabric"
+}
+
+loom {
+	splitEnvironmentSourceSets()
+
+	mods {
+		"${project.mod_id}" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+
+	// https://github.com/SpongePowered/Mixin/wiki/Mixin-Java-System-Properties
+	def applyCommonRunConfig = { run ->
+        // run.runDir = "run/${project.minecraft_version}/${run.name}"
+        // run.vmArg('-XX:+ShowCodeDetailsInExceptionMessages')
+		run.property("mixin.debug.export", "true")
+		run.property("mixin.debug.export.decompile", "true")
+		run.property("mixin.dumpTargetOnFailure", "true")
+		run.property("mixin.debug.verify", "true")
+		run.property("mixin.debug.verbose", "true")
+		run.property("mixin.env.remapRefMap", "true")
+		run.property("mixin.checks", "true")
+		run.property("mixin.hotSwap", "true")
+    }
+
+	runs {
+		client {
+			runDir = "run/${project.minecraft_version}/client"
+			vmArg "-XX:+ShowCodeDetailsInExceptionMessages"
+			applyCommonRunConfig(client)
+		}
+		server {
+			runDir = "run/${project.minecraft_version}/server"
+			vmArg "-XX:+ShowCodeDetailsInExceptionMessages"
+			applyCommonRunConfig(server)
+		}
+	}
+}
+
+sourceSets {
+	test {
+		compileClasspath += sourceSets.client.compileClasspath
+		runtimeClasspath += sourceSets.client.runtimeClasspath
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
+
+	// ====== Mod Compatibility (optional dependencies) ======
+	modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+}
+
+processResources {
+    Map<String, Object> properties = new HashMap<>()
+    properties.put("version", project.version)
+    properties.put("mod_id", project.mod_id)
+    properties.put("mod_name", project.mod_name)
+    properties.put("mod_slug", project.mod_slug)
+    properties.put("mod_author", project.mod_author)
+    properties.put("loader_version", project.loader_version)
+    properties.put("fabric_version", project.fabric_version)
+    properties.put("minecraft_version", project.minecraft_version)
+    // properties.put("java_version", sourceCompatibility)
+
+	properties.each { k, v -> inputs.property(k, v) }
+
+    filesMatching("fabric.mod.json") {
+        expand properties
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+	// Minecraft 1.21 upwards uses Java 21.
+	it.options.release = 21
+}
+
+java {
+	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+	// if it is present.
+	// If you remove this line, sources will not be generated.
+	withSourcesJar()
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+	from("LICENSE") {
+		rename { "${it}_${project.base.archivesName.get()}"}
+	}
+}
+
+test {
+	useJUnitPlatform()
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
+}
