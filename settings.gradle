@@ -10,7 +10,7 @@ pluginManagement {
 }
 
 plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.10.0'
 }
 
 // https://docs.gradle.org/current/userguide/multi_project_builds.html#modifying_a_subproject_path
