@@ -1,7 +1,7 @@
 plugins {
 	// https://fabricmc.net/wiki/documentation:fabric_loom
-	id 'fabric-loom' version '1.9-SNAPSHOT' apply false
-    id "org.jetbrains.gradle.plugin.idea-ext" version "1.1.7"
+	id 'fabric-loom' version '1.11-SNAPSHOT' apply false
+    id "org.jetbrains.gradle.plugin.idea-ext" version "1.2"
 }
 
 subprojects {
@@ -78,7 +78,7 @@ subprojects {
         enabled = false
     }
 
-    tasks.withType(Jar).all {
-        duplicatesStrategy 'include'
-    }
+	tasks.withType(Jar).configureEach {
+		duplicatesStrategy = DuplicatesStrategy.INCLUDE
+	}
 }

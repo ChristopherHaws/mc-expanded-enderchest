@@ -1,0 +1,15 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "io.chaws.expandedenderchest.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"plugin": "io.chaws.expandedenderchest.ExpandedEnderchestMixinPlugin",
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"mixins": [
+		"EnderChestBlockMixin",
+		"PlayerEntityMixin",
+		"SimpleInventoryAccessor"
+	]
+}
